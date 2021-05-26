@@ -1,4 +1,4 @@
-#!/home/geovani/projetos/api_users/.users/bin/python3
+#!/home/geovani/projetos/api_users/.api_users/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
