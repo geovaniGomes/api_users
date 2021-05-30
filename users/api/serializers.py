@@ -18,19 +18,15 @@ class UserSerializer(serializers.ModelSerializer):
                   'last_name',
                   'is_active',
                   'is_staff',
+                  'password',
                   'permissions']
 
     def create(self, validated_data):
-        permissions = validated_data.get('permissions')
-        password = validated_data['password']
 
-        if len(permissions) == 0:
-            del validated_data['permissions']
+        password = validated_data['password']
         del validated_data['password']
 
         user = User.objects.create(**validated_data)
-
-        user.permissions.set(permissions)
         user.set_password(password)
         user.save()
         return user
@@ -42,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.is_active = validated_data.get('is_active', instance.is_active)
-        instance.is_staff = validated_data.get('photo_3', instance.is_staff)
+        instance.is_staff = validated_data.get('is_staff', instance.is_staff)
         instance.save()
 
         return instance

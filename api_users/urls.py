@@ -6,10 +6,10 @@ from django.urls import include, path
 from permissions.api.viewsets import PermissionVieweSet
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from users.api.viewsets import MyObtainTokenPairView, UserVieweSet
+from users.api.viewsets import MyObtainTokenPairView, UserViewSet
 
 router = routers.DefaultRouter()
-router.register(r"users", UserVieweSet)
+router.register(r"users", UserViewSet)
 router.register(r"permissions", PermissionVieweSet)
 
 
