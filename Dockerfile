@@ -21,9 +21,9 @@ RUN python -m venv env
 
 
 # copy and install pip requirements 
-COPY src/requirements.txt  code/src/requirements.txt
+COPY requirements.txt  code/requirements.txt
 
-RUN pip install -r code/src/requirements.txt
+RUN pip install -r code/requirements.txt
 
 # copy Django project files
 
