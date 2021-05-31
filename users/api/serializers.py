@@ -3,12 +3,12 @@ from rest_framework import serializers
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 from ..models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     permissions = PermissionSerializer(many=True, required=False)
-
     class Meta:
         model = User
         fields = ['id',

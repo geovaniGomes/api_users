@@ -9,10 +9,10 @@ from ..models import User
 from permissions.models import CustomPermission
 from .serializers import MyTokenObtainPairSerializer, UserSerializer
 
-
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
     def create(self, request, *args, **kwargs):
 

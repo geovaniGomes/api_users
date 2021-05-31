@@ -6,7 +6,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = "leticia_brandao"
+    username = "leticia_calderaro"
     first_name = "leticia"
     last_name = "brandao"
     email = "let@gmail.com"
