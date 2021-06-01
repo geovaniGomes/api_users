@@ -1,9 +1,10 @@
 import factory.django
-from permissions.models import CustomPermission
+from core.models import Permission
+
 
 class PermissionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = CustomPermission
+        model = Permission
 
     name = "CRIAR USUARIO"
     code_name = "APIUSER::USSERS:WRITE"

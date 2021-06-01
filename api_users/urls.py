@@ -3,14 +3,16 @@ from django.contrib import admin
 from django.urls import include, path
 
 
-from permissions.api.viewsets import PermissionVieweSet
+from core.api.permissions.viewsets import PermissionViewSet
+from core.api.groups.viewsets import GroupViewSet
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from users.api.viewsets import MyObtainTokenPairView, UserViewSet
+from core.api.users.viewsets import MyObtainTokenPairView, UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
-router.register(r"permissions", PermissionVieweSet)
+router.register(r"permissions", PermissionViewSet)
+router.register(r"groups", GroupViewSet)
 
 
 urlpatterns = [

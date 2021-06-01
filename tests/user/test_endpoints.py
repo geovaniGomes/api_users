@@ -3,9 +3,10 @@ from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 from .factories import UserFactory, SuperUserFactory
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
-from users.models import User
+from core.models import User
+from rest_framework_jwt.settings import api_settings
 
-
+'''
 class TestUserEndpoint(APITestCase):
     def test_list_empty(self):
         data = []
@@ -170,13 +171,14 @@ class TestUserEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+
 class UserLogin(APITestCase):
 
     def test_login(self):
         url_auth = '/token/'
         url = '/users/'
         factory_data = SuperUserFactory
-        self.client.post(
+        data_1 = self.client.post(
             url,
             {'username': factory_data.username,
              'first_name': factory_data.first_name,
@@ -186,14 +188,21 @@ class UserLogin(APITestCase):
              'password': factory_data.password
              }
         )
+        self.assertEqual(data_1.status_code, status.HTTP_201_CREATED)
+        from rest_framework_simplejwt.tokens import RefreshToken
         user = User.objects.all()[0]
+        refresh = RefreshToken.for_user(user)
+        response = self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+        token = response.data['token']
+        data = self.client.get(url)
+        print(data)
 
+   
+   
         from rest_framework.test import force_authenticate
 
         factory = APIRequestFactory()
-
-        # Make an authenticated request to the view...
         request = factory.get(url_auth)
         force_authenticate(request, user=user)
-
+'''
 

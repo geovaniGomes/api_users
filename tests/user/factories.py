@@ -1,5 +1,5 @@
 import factory.django
-from users.models import User
+from core.models import User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
