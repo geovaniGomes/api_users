@@ -11,10 +11,6 @@ class PermissionSerializer(serializers.ModelSerializer):
         model = Permission
         fields = ['id', 'name', 'code_name', 'groups']
 
-    def get_queryset(self):
-        queryset = Permission.objects.exclude(is_deleted=True)
-        return queryset
-
     def associate_group(self, pk, groups):
         list_groups = []
 
@@ -28,7 +24,7 @@ class PermissionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         groups = validated_data.get('groups')
 
-        if groups is not None and groups != []:
+        if groups and len(groups) > 0:
             del validated_data['groups']
             permission = Permission.objects.create(**validated_data)
             permission.save()
@@ -43,7 +39,7 @@ class PermissionSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         groups = validated_data.get('groups')
 
-        if groups is not None and groups != []:
+        if groups and len(groups) > 0:
             del validated_data['groups']
             instance.code_name = validated_data.get('code_name', instance.code_name)
             instance.name = validated_data.get('name', instance.name)
@@ -57,4 +53,3 @@ class PermissionSerializer(serializers.ModelSerializer):
             instance.save()
 
         return instance
-

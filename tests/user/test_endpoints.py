@@ -1,12 +1,9 @@
-from django.contrib.sites import requests
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase
 from .factories import UserFactory, SuperUserFactory
-from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from core.models import User
-from rest_framework_jwt.settings import api_settings
 
-'''
+
 class TestUserEndpoint(APITestCase):
     def test_list_empty(self):
         data = []
@@ -196,13 +193,3 @@ class UserLogin(APITestCase):
         token = response.data['token']
         data = self.client.get(url)
         print(data)
-
-   
-   
-        from rest_framework.test import force_authenticate
-
-        factory = APIRequestFactory()
-        request = factory.get(url_auth)
-        force_authenticate(request, user=user)
-'''
-

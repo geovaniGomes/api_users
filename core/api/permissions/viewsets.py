@@ -7,19 +7,13 @@ from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 
 
-def is_permission(permission):
-    exist = Permission.objects.filter(code_name=permission['code_name'],
-                                      is_deleted=False).exist()
-    return exist
-
-
 def is_group(groups):
     for group in groups:
         get_object_or_404(Group, name=group['name'], is_deleted=False)
 
 
 class PermissionViewSet(ModelViewSet):
-    queryset = Permission.objects.exclude(is_deleted=True)
+    queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
     def create(self, request, *args, **kwargs):

@@ -112,7 +112,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+.api_users/
+.idea/
 # Spyder project settings
 .spyderproject
 .spyproject

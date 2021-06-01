@@ -8,6 +8,9 @@ class ClassBaseManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False, is_archived=False)
 
+    def get_by_natural_key(self, username):
+        return self.get(username=username)
+
 
 class ClassBase(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
@@ -87,5 +90,3 @@ class User(ClassBase, AbstractUser):
     
     def __str__(self):
         return self.username
-
-

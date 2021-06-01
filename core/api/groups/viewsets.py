@@ -7,7 +7,7 @@ from core.models import Group
 
 
 class GroupViewSet(ModelViewSet):
-    queryset = Group.objects.exclude(is_deleted=True)
+    queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
     def destroy(self, request, *args, **kwargs):

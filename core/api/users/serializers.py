@@ -1,7 +1,6 @@
 from core.api.permissions.serializers import PermissionSerializer
 from core.api.groups.serializers import GroupSerializer
 from rest_framework import serializers
-from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
@@ -54,10 +53,10 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data['password']
         del validated_data['password']
 
-        if groups is not None and groups != []:
+        if groups and len(groups) > 0:
             del validated_data['groups']
         
-        if permissions is not None and permissions != []:
+        if permissions and len(permissions) > 0:
             del validated_data['permissions']
 
         user = User.objects.create(**validated_data)
@@ -77,10 +76,10 @@ class UserSerializer(serializers.ModelSerializer):
         permissions = validated_data.get('permissions')
         groups = validated_data.get('groups')
 
-        if groups is not None and groups != []:
+        if groups and len(groups) > 0:
             del validated_data['groups']
 
-        if permissions is not None and permissions != []:
+        if permissions and len(permissions) > 0:
             del validated_data['permissions']
 
         instance.username = validated_data.get('username', instance.username)
@@ -104,14 +103,15 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-        user_id = JWTTokenUserAuthentication.get_user(cls, token)
-        usuario_logado = User.objects.get(username=user)
+        user_auth = User.objects.get(username=user)
 
+        serializer = UserSerializer(user_auth)
         # Add custom claims
-        token['username'] = usuario_logado.username
-        token['first_name'] = usuario_logado.first_name
-        token['last_name'] = usuario_logado.last_name
-        token['email'] = usuario_logado.email
+        token['username'] = serializer.data['username']
+        token['first_name'] = serializer.data['first_name']
+        token['last_name'] = serializer.data['last_name']
+        token['is_staff'] = serializer.data['is_staff']
+        token['email'] = serializer.data['email']
+        token['permissions'] = serializer.data['permissions']
+        token['groups'] = serializer.data['groups']
         return token
-
-
