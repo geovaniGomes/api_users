@@ -59,7 +59,3 @@ class TestGroupEndpoints(APITestCase):
         response_create = self.test_create_valid()
         response = self.client.delete(f"{self.url+response_create.json()['id']}/")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-
-
-
