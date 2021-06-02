@@ -31,10 +31,10 @@ class UserViewSet(ModelViewSet):
         groups = request.data.get('groups')
         permissions = request.data.get('permissions')
 
-        if groups is not None and groups != []:
+        if groups and len(groups) > 0:
             is_group(groups)
 
-        if permissions is not None and permissions != []:
+        if permissions and len(permissions) > 0:
             is_permission(permissions)
 
         serializer = self.serializer_class(data=request.data)
