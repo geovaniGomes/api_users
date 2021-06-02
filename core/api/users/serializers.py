@@ -24,7 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
                   'permissions',
                   'groups']
         extra_kwargs = {'password': {'write_only': True}}
-
     def associate_permissions(self, pk, new_permissions):
         list_permissions = []
         for new_permission in new_permissions:
@@ -96,6 +95,7 @@ class UserSerializer(serializers.ModelSerializer):
             self.associate_permissions(instance.id, permissions)
 
         return instance
+
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

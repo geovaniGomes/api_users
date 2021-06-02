@@ -79,8 +79,8 @@ class User(ClassBase, AbstractUser):
     permissions = models.ManyToManyField(Permission, null=True, blank=True)
     first_name = models.CharField('first name', max_length=150, blank=False)
     last_name = models.CharField('last name', max_length=150, blank=False)
+    password = models.CharField('password', max_length=128, blank=True)
     email = models.EmailField('email address', blank=False, unique=True)
-    password = models.CharField('password', max_length=128, null=False)
     groups = models.ManyToManyField(Group, null=True, blank=True)
 
     def inactivate(self):

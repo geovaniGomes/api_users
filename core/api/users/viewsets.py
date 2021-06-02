@@ -1,3 +1,5 @@
+import string
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -7,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import permission_classes
 from rest_framework.decorators import action
 from django.db.models import Q
+import re
 
 from core.models import User, Permission, Group
 
@@ -16,6 +19,12 @@ from .serializers import MyTokenObtainPairSerializer, UserSerializer
 def is_group(groups):
     for group in groups:
         get_object_or_404(Group, name=group['name'], is_deleted=False)
+
+
+def is_password(password):
+    regex = "r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z\.a-zA-Z]{1,3}$"
+    result = re.search(regex, password)
+    return result
 
 
 def is_permission(permissions):
@@ -28,6 +37,18 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
 
     def create(self, request, *args, **kwargs):
+        password = request.data.get('password')
+        data = {"password": "Password field is required."}
+
+        if password is None:
+            return Response(data=data,
+                            status=status.HTTP_400_BAD_REQUEST)
+        else:
+
+            if password.isspace():
+                return Response(data=data,
+                                status=status.HTTP_400_BAD_REQUEST)
+
         groups = request.data.get('groups')
         permissions = request.data.get('permissions')
 

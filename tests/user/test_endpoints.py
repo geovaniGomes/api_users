@@ -97,7 +97,7 @@ class TestUserEndpoint(APITestCase):
              }
             )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json()['first_name'], self.users[0].fris_name)
+        self.assertEqual(response.json()['first_name'], self.users[0].first_name)
         self.assertEqual(response.json()['last_name'], self.users[0].last_name)
 
     def test_update_username_empty(self):
