@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 from .factories import UserFactory, SuperUserFactory, UserSecondaryFactory
 from core.models import User
 
@@ -117,29 +118,28 @@ class TestUserEndpoint(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-"""
-class UserLogin(APITestCase):
+    def test_create_with_groups_and_permissions(self):
+        group_create = self.client.post('/groups/',
+                                        data={
+                                            "name": "grupo one"
+                                        })
 
-    def test_login(self):
-        url_auth = '/token/'
-        url = '/users/'
-        factory_data = SuperUserFactory
-        data_1 = self.client.post(
-            url,
-            {'username': factory_data.username,
-             'first_name': factory_data.first_name,
-             'last_name': factory_data.last_name,
-             'email': factory_data.email,
-             'is_staff': factory_data.is_staff,
-             'password': factory_data.password
-             }
-        )
-        self.assertEqual(data_1.status_code, status.HTTP_201_CREATED)
-        from rest_framework_simplejwt.tokens import RefreshToken
-        user = User.objects.all()[0]
-        refresh = RefreshToken.for_user(user)
-        response = self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
-        token = response.data['token']
-        data = self.client.get(url)
-        print(data)
-"""
+        permission_create = self.client.post('/permissions/',
+            data={
+                "name": "create user",
+                "code_name": "USER::CREATE"
+        })
+
+        response = self.client.post(self.url,
+            {
+             'username': "leticia@gmail.com",
+             'first_name': "leticia",
+             'last_name': "almeida",
+             'email': "leticia@gmail.com",
+             'is_staff': False,
+             'password': "52002600NN",
+             'permissions': [permission_create.json()],
+             'groups': [group_create.json()]
+            }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

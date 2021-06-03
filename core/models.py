@@ -68,12 +68,12 @@ class User(ClassBase, AbstractUser):
         verbose_name_plural = "users"
         db_table = 'users'
 
-    permissions = models.ManyToManyField(Permission, null=True, blank=True)
+    permissions = models.ManyToManyField(Permission, blank=True)
     first_name = models.CharField('first name', max_length=150, blank=False)
     last_name = models.CharField('last name', max_length=150, blank=False)
     password = models.CharField('password', max_length=128, blank=True)
     email = models.EmailField('email address', blank=False, unique=True)
-    groups = models.ManyToManyField(Group, null=True, blank=True)
+    groups = models.ManyToManyField(Group, blank=True)
 
     def inactivate(self):
         super().is_active = False
