@@ -71,7 +71,7 @@ class PermissionViewSet(ModelViewSet):
             groups = request.data.get('groups')
 
             if groups is not None and groups != []:
-                is_group(groups)
+                is_group(groups, kwargs['pk'])
 
             serializer = self.serializer_class(instance, data=permission, partial=partial)
             serializer.is_valid(raise_exception=True)

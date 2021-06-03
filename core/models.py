@@ -6,7 +6,7 @@ from django.db import models
 
 class ClassBaseManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_deleted=False, is_archived=False)
+        return super().get_queryset().filter(is_deleted=False)
 
     def get_by_natural_key(self, username):
         return self.get(username=username)
@@ -36,14 +36,6 @@ class Group(ClassBase):
         db_table = 'groups'
 
     name = models.CharField(max_length=128, blank=False)
-
-    def is_group(self, groups):
-        groups_names = []
-        for group in groups:
-            groups_names.append(group['code_name'])
-
-        queryset = self.objects.filter(name__in=group)
-        return queryset
 
 
 class Permission(ClassBase):
