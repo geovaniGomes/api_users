@@ -97,12 +97,11 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+class ObtainMyokenSerializer(TokenObtainPairSerializer):
 
     @classmethod
     def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+        token = super(ObtainMyokenSerializer, cls).get_token(user)
         user_auth = User.objects.get(username=user)
 
         serializer = UserSerializer(user_auth)
@@ -115,3 +114,4 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['permissions'] = serializer.data['permissions']
         token['groups'] = serializer.data['groups']
         return token
+

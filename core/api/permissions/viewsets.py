@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.models import Permission, Group
 from .serializers import PermissionSerializer
-from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 
 
@@ -81,7 +80,6 @@ class PermissionViewSet(ModelViewSet):
             return Response(serializer.data)
         else:
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
-
 
     def destroy(self, request, *args, **kwargs):
         pk = kwargs['pk']

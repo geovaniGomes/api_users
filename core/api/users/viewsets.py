@@ -5,26 +5,19 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import permission_classes
-from rest_framework.decorators import action
-from django.db.models import Q
-import re
+from rest_framework.permissions import AllowAny
 
 from core.models import User, Permission, Group
 
-from .serializers import MyTokenObtainPairSerializer, UserSerializer
+from .serializers import (
+    ObtainMyokenSerializer,
+    UserSerializer
+)
 
 
 def is_group(groups):
     for group in groups:
         get_object_or_404(Group, name=group['name'], is_deleted=False)
-
-
-def is_password(password):
-    regex = "r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z\.a-zA-Z]{1,3}$"
-    result = re.search(regex, password)
-    return result
 
 
 def is_permission(permissions):
@@ -89,15 +82,9 @@ class UserViewSet(ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-
-
-
-
-
-
-
-
-class MyObtainTokenPairView(TokenObtainPairView):
+class ObtainMyTokenView(TokenObtainPairView):
     permission_classes = (AllowAny,)
-    serializer_class = MyTokenObtainPairSerializer
+    serializer_class = ObtainMyokenSerializer
+
+
+
