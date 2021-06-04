@@ -31,7 +31,7 @@ After the tests are completed, run the command to perform the migrations: ` pyth
 
 Finally, access the website at this link: [http://localhost:8000/](http://localhost:8000/)
 
-# Referências
+# References
 
 - [Documentação do Django](https://docs.djangoproject.com/en/3.2/)
 - [Documentação do Django REST framework](https://www.django-rest-framework.org/)
