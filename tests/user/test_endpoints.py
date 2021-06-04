@@ -119,19 +119,22 @@ class TestUserEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_with_groups_and_permissions(self):
-        group_create = self.client.post('/groups/',
-                                        data={
-                                            "name": "grupo one"
-                                        })
+        group_create = self.client.post(
+            '/groups/',
+            data={
+                "name": "grupo one"
+            })
 
-        permission_create = self.client.post('/permissions/',
+        permission_create = self.client.post(
+            '/permissions/',
             data={
                 "name": "create user",
                 "code_name": "USER::CREATE"
         })
 
-        response = self.client.post(self.url,
-            {
+        response = self.client.post(
+            self.url,
+            data={
              'username': "leticia@gmail.com",
              'first_name': "leticia",
              'last_name': "almeida",
@@ -143,3 +146,28 @@ class TestUserEndpoint(APITestCase):
             }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_with_groups_and_permissions_not_existing(self):
+        response = self.client.post(
+            self.url,
+            data={
+                'username': "leticia@gmail.com",
+                'first_name': "leticia",
+                'last_name': "almeida",
+                'email': "leticia@gmail.com",
+                'is_staff': False,
+                'password': "52002600NN",
+                'permissions': [
+                    {
+                        "name": "EDIT USER",
+                        "code_name":"APIUSER::USERS:EDIT"
+                    }
+                ],
+                'groups': [
+                    {
+                        "name": "GROUP USERS",
+                    }
+                ]
+            }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
